@@ -1,0 +1,182 @@
+FORMAT: 1A
+HOST: https://ello.co/
+
+# Ello V2 API
+
+The Ello V2 API is the API driving all Ello clients, including the React Native Android app, the Swift iOS app, and the React web app.
+
+This documenation is a work in progress.
+
+### Getting Started
+
+### Using this documentation
+
+This documentation is primarally oriented at providing guidance on what endpoints are available and how to access them.
+
+JSON structure is defined in our JSON Schemas, against which all endpoints are validated.
+
+### Patterns
+
+### Example Implementations
+
+## Group Authentication
+
+TODO
+
+## Group Users & Posts
+
+At it's heart Ello is comprised of two core data types, Users and Posts.
+
+## Posts
+
+Posts are represented as....
+
+## Users
+
+Users are represeted as....
+
+## Group Discovery
+
+The discovery endpoints are all targeted at helping users find the freshest, best content on Ello.
+
+All discovery endpoint exclude adult content.
+
+## Editorials [/api/v2/editorials]
+
+Editorials are an Ello Staff curated resource highlighting the best content on network.
+
+Editorials come in 3 kinds all mixed in the same stream, `post`, `post_stream`, and `external`:
+
+* `post` editorials include a post alongside the response.
+* `post_stream` editorials include an api endpoint to retreive a stream of posts to be consumed by an Ello API client.
+* `external` include a web url to be opened in a browser.
+
+### Editorial Stream [GET /api/v2/editorials{?per_page,before}]
+
+Retreive a page of editorials of all types.
+
++ Parameters
+    + per_page: 25 (number, optional) - Number of editorials to return per page.
+        + default: 25
+    + before: 354 (number, optional) - Pagination cursor, where to start this page. Returned in the `link` header.
+
++ Response 200 (application/json)
+    + Headers
+
+            Link: <https://ello.co/api/v2/editorials?before=979&per_page=25>; rel="next"
+
+    + Schema
+
+            {
+                "$ref": "https://ello.ninja/api/schema/editorial.json"
+            }
+
+### Editorial Posts [GET /api/v2/editorials/post?token[]={token1}&token[]={token2}]
+
+Get a set of posts by token. 
+
++ Parameters
+    + token1 : abc123 (string, required) - Token representing post in stream.
+    + token2 : def345 (string, optional) - Token representing post in stream.
+
+   
++ Response 200 (application/json)
+
+    + Schema
+
+            {
+                "$ref": "https://ello.ninja/api/schema/post.json"
+            }
+
+
+## Categories [/api/v2/categories]
+
+### List All [GET /api/v2/categories]
+A list of all the categories.
++ Response 200 (application/json)
+
+### Recent Post Stream [GET /api/v2/categories/{slug}/posts/recent]
+All the newest posts in the given category  - time ordered.
++ Response 200 (application/json)
+
+### Trending Post Stream [GET /api/v2/categories/{slug}/posts/trending]
+What is trending in the given category.
++ Response 200 (application/json)
+
+### Featured Post Stream [GET /api/v2/categories/posts/recent]
+All the newest posts across all the categories  - time ordered.
++ Response 200 (application/json)
+
+## Discovery [/api/v2/discover/posts]
+
+### Recent Post Stream [GET /api/v2/discover/posts/recent]
+All the newest posts across the network - time ordered.
++ Response 200 (application/json)
+
+### Trending Post Stream [GET /api/v2/discover/posts/trending]
+What is trending across the entire network.
++ Response 200 (application/json)
+
+
+## Group Personal Resources
+
+These resources are only available to the currently logged in user.
+
+## Following Stream [/api/v2/following/posts]
+
+### Recent Post Stream [GET /api/v2/following/posts/recent]
+All the newest posts from the users you follow - time ordered.
++ Response 200 (application/json)
+
+### Trending Post Stream [GET /api/v2/following/posts/trending]
+What is trending from users you follow.
++ Response 200 (application/json)
+
+## Profile [/api/v2/profile]
+
+### View [GET /api/v2/profile]
++ Response 200 (application/json)
+
+### Update [PATCH /api/v2/profile]
++ Response 200 (application/json)
+
+### Settings [GET /api/v2/profile/settings]
++ Response 200 (application/json)
+
+### Blocked [GET /api/v2/profile/settings/blocked]
++ Response 200 (application/json)
+
+### Muted [GET /api/v2/profile/settings/muted]
++ Response 200 (application/json)
+
+## Group Search
+
+## User Search [/api/v2/users]
+
+### User Search [GET /api/v2/users?terms=terms]
++ Response 200 (application/json)
+
+### Username Autocomplete [GET /api/v2/users/autocomplete?terms=terms]
++ Response 200 (application/json)
+
+## Post Search [/api/v2/posts]
+
+### Post Search [GET /api/v2/posts?terms=terms]
++ Response 200 (application/json)
+
+
+## Group Network
+
+TODO
+
+## Group Other
+
+TODO
+
+## Group Appendix
+
+### Terminology
+
+* **Post Stream** - A list of posts that is paginated over. Includes post assets, author, and repost data.
+
+### JSON Schemas
