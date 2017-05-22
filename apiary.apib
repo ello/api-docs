@@ -60,6 +60,9 @@ Retreive a page of editorials of all types.
         + default: 25
     + before: 354 (number, optional) - Pagination cursor, where to start this page. Returned in the `link` header.
 
++ Headers
+    Authortization: Bearer JWT
+
 + Response 200 (application/json)
     + Headers
 
@@ -73,13 +76,18 @@ Retreive a page of editorials of all types.
 
 ### Editorial Posts [GET /api/v2/editorials/post?token[]={token1}&token[]={token2}]
 
-Get a set of posts by token. 
+Get a set of posts by token. The `token[]` param can me used multiple times.
+
+A populated version of this url is often returned by the `post_stream` kind
+of editorial in the editorial stream.
 
 + Parameters
     + token1 : abc123 (string, required) - Token representing post in stream.
     + token2 : def345 (string, optional) - Token representing post in stream.
 
-   
++ Headers
+    Authortization: Bearer JWT
+
 + Response 200 (application/json)
 
     + Schema
