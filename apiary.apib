@@ -60,8 +60,11 @@ Retreive a page of editorials of all types.
         + default: 25
     + before: 354 (number, optional) - Pagination cursor, where to start this page. Returned in the `link` header.
 
-+ Headers
-    Authortization: Bearer JWT
+
++ Request
+    + Headers
+    
+            Authortization: Bearer JWT
 
 + Response 200 (application/json)
     + Headers
@@ -85,8 +88,10 @@ of editorial in the editorial stream.
     + token1 : abc123 (string, required) - Token representing post in stream.
     + token2 : def345 (string, optional) - Token representing post in stream.
 
-+ Headers
-    Authortization: Bearer JWT
++ Request
+    + Headers
+    
+            Authortization: Bearer JWT
 
 + Response 200 (application/json)
 
