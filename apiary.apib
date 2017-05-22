@@ -63,8 +63,9 @@ Retreive a page of editorials of all types.
 
 + Request
     + Headers
-    
+
             Authortization: Bearer JWT
+            Accept: application/json
 
 + Response 200 (application/json)
     + Headers
@@ -90,8 +91,9 @@ of editorial in the editorial stream.
 
 + Request
     + Headers
-    
+
             Authortization: Bearer JWT
+            Accept: application/json
 
 + Response 200 (application/json)
 
@@ -112,9 +114,33 @@ A list of all the categories.
 All the newest posts in the given category  - time ordered.
 + Response 200 (application/json)
 
-### Trending Post Stream [GET /api/v2/categories/{slug}/posts/trending]
+### Trending Post Stream [GET /api/v2/categories/{slug}/posts/trending{?per_page,page,images_only}]
 What is trending in the given category.
+
++ Parameters
+    + slug: art (string, required) - The url `slug` property of the category desired.
+    + per_page: 25 (number, optional) - Number of editorials to return per page.
+        + default: 25
+    + page: 3 (number, optional) - What page to retreive.
+        + default: 1
+    + images_only: true (string, optional) - When present only posts with images will be included.
+
++ Request
+    + Headers
+
+            Authortization: Bearer JWT
+            Accept: application/json
+
 + Response 200 (application/json)
+    + Headers
+
+            Link: <https://ello.co/api/v2/categories/art/posts/trending?page=2&per_page=25>; rel="next"
+
+    + Schema
+
+            {
+                "$ref": "https://ello.ninja/api/schema/post.json"
+            }
 
 ### Featured Post Stream [GET /api/v2/categories/posts/recent]
 All the newest posts across all the categories  - time ordered.
@@ -126,9 +152,32 @@ All the newest posts across all the categories  - time ordered.
 All the newest posts across the network - time ordered.
 + Response 200 (application/json)
 
-### Trending Post Stream [GET /api/v2/discover/posts/trending]
+### Trending Post Stream [GET /api/v2/discover/posts/trending{?per_page,page,images_only]
 What is trending across the entire network.
+
++ Parameters
+    + per_page: 25 (number, optional) - Number of editorials to return per page.
+        + default: 25
+    + page: 3 (number, optional) - What page to retreive.
+        + default: 1
+    + images_only: true (string, optional) - When present only posts with images will be included.
+
++ Request
+    + Headers
+
+            Authortization: Bearer JWT
+            Accept: application/json
+
 + Response 200 (application/json)
+    + Headers
+
+            Link: <https://ello.co/api/v2/discover/posts/trending?page=2&per_page=25>; rel="next"
+
+    + Schema
+
+            {
+                "$ref": "https://ello.ninja/api/schema/post.json"
+            }
 
 
 ## Group Personal Resources
@@ -141,9 +190,32 @@ These resources are only available to the currently logged in user.
 All the newest posts from the users you follow - time ordered.
 + Response 200 (application/json)
 
-### Trending Post Stream [GET /api/v2/following/posts/trending]
+### Trending Post Stream [GET /api/v2/following/posts/trending{?per_page,page,images_only}]
 What is trending from users you follow.
+
++ Parameters
+    + per_page: 25 (number, optional) - Number of editorials to return per page.
+        + default: 25
+    + page: 3 (number, optional) - What page to retreive.
+        + default: 1
+    + images_only: true (string, optional) - When present only posts with images will be included.
+
++ Request
+    + Headers
+
+            Authortization: Bearer User Authenticated JWT
+            Accept: application/json
+
 + Response 200 (application/json)
+    + Headers
+
+            Link: <https://ello.co/api/v2/following/posts/trending?page=2&per_page=25>; rel="next"
+
+    + Schema
+
+            {
+                "$ref": "https://ello.ninja/api/schema/post.json"
+            }
 
 ## Profile [/api/v2/profile]
 
