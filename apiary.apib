@@ -148,9 +148,30 @@ All the newest posts across all the categories  - time ordered.
 
 ## Discovery [/api/v2/discover/posts]
 
-### Recent Post Stream [GET /api/v2/discover/posts/recent]
+### Recent Post Stream [GET /api/v2/discover/posts/recent{?per_page,before}]
 All the newest posts across the network - time ordered.
+
++ Parameters
+    + per_page: 25 (number, optional) - Number of editorials to return per page.
+        + default: 25
+    + before: 23234324xsadfasdf (string, optional) - The pagination cursor, returned in the `link` header of the previous page.
+
++ Request
+    + Headers
+
+            Authortization: Bearer JWT
+            Accept: application/json
+
 + Response 200 (application/json)
+    + Headers
+
+            Link: <https://ello.co/api/v2/discover/posts/recent?before=abcd123per_page=25>; rel="next"
+
+    + Schema
+
+            {
+                "$ref": "https://ello.ninja/api/schema/post.json"
+            }
 
 ### Trending Post Stream [GET /api/v2/discover/posts/trending{?per_page,page,images_only]
 What is trending across the entire network.
