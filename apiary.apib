@@ -19,21 +19,15 @@ JSON structure is defined in our JSON Schemas, against which all endpoints are v
 
 ### Example Implementations
 
+All of Ello's client application are all open source. They can all serve as good example clients.
+
+* iOS (Swift) - https://github.com/ello/ello-ios
+* Web (React) - https://github.com/ello/webapp
+* Android (React Native) - https://github.com/ello/bender
+
 ## Group Authentication
 
 TODO
-
-## Group Users & Posts
-
-At it's heart Ello is comprised of two core data types, Users and Posts.
-
-## Posts
-
-Posts are represented as....
-
-## Users
-
-Users are represeted as....
 
 ## Group Discovery
 
@@ -321,9 +315,9 @@ TODO
 + reposted: false (boolean) - Has the accessing user reposted this post?
 + loved: false (boolean) - Has the accessing user loved this post?
 + is_adult_content: false (boolean) - Is this post marked as adult content.
-+ content_warning: (string, optional) - Displays warning for 3rd party content when applicable.
-+ created_at: "2017-05-17T22:55:05.229652Z" (date) - When post was created.
-+ repost_id: (string, optional)
++ content_warning: 3rd Party content may contain ads (string) - Displays warning for 3rd party content when applicable.
++ created_at: `2017-05-17T22:55:05.229652Z` (string) - When post was created.
++ repost_id: 123 (string)
 + author_id: 456 (string)
 + links (object)
     + author (object)
@@ -348,10 +342,14 @@ TODO
 + link_url: null (string)
 + data (object)
     + url: https://assets1.ello.co/uploads/asset/attachment/987/ello-optimized-67949d24.jpg",
-    + alt: "ello world"
+    + alt: ello world
 + links (object)
     + assets: 987 (string)
 
+### TextPostBlock
++ kind: text (string)
++ link_url: null (string)
++ data: "ello world!" (string)
 
 ### User
 + id: 456 (string)
