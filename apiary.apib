@@ -97,6 +97,8 @@ of editorial in the editorial stream.
 
 + Response 200 (application/json)
 
+    + Attributes (PostStream)
+    
     + Schema
 
             {
@@ -132,6 +134,9 @@ What is trending in the given category.
             Accept: application/json
 
 + Response 200 (application/json)
+
+    + Attributes (PostStream)
+    
     + Headers
 
             Link: <https://ello.co/api/v2/categories/art/posts/trending?page=2&per_page=25>; rel="next"
@@ -163,6 +168,9 @@ All the newest posts across the network - time ordered.
             Accept: application/json
 
 + Response 200 (application/json)
+
+    + Attributes (PostStream)
+    
     + Headers
 
             Link: <https://ello.co/api/v2/discover/posts/recent?before=abcd123per_page=25>; rel="next"
@@ -190,6 +198,9 @@ What is trending across the entire network.
             Accept: application/json
 
 + Response 200 (application/json)
+
+    + Attributes (PostStream)
+    
     + Headers
 
             Link: <https://ello.co/api/v2/discover/posts/trending?page=2&per_page=25>; rel="next"
@@ -228,6 +239,9 @@ What is trending from users you follow.
             Accept: application/json
 
 + Response 200 (application/json)
+
+    + Attributes (PostStream)
+    
     + Headers
 
             Link: <https://ello.co/api/v2/following/posts/trending?page=2&per_page=25>; rel="next"
@@ -279,6 +293,16 @@ TODO
 
 TODO
 
+
+
+## Group Appendix
+
+### Terminology
+
+* **Post Stream** - A list of posts that is paginated over. Includes post assets, author, and repost data.
+
+### JSON Schemas
+
 ## Data Structures
 
 ### Post
@@ -296,10 +320,9 @@ TODO
 ### Asset
 + id: "789" (string)
 
-## Group Appendix
+### PostStream
 
-### Terminology
-
-* **Post Stream** - A list of posts that is paginated over. Includes post assets, author, and repost data.
-
-### JSON Schemas
++ posts (array[Post])
++ linked (object)
+    + users (array[User])
+    + assets (array[Asset])
