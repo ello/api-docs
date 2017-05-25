@@ -98,7 +98,7 @@ of editorial in the editorial stream.
 + Response 200 (application/json)
 
     + Attributes (PostStream)
-    
+
     + Schema
 
             {
@@ -136,7 +136,7 @@ What is trending in the given category.
 + Response 200 (application/json)
 
     + Attributes (PostStream)
-    
+
     + Headers
 
             Link: <https://ello.co/api/v2/categories/art/posts/trending?page=2&per_page=25>; rel="next"
@@ -170,7 +170,7 @@ All the newest posts across the network - time ordered.
 + Response 200 (application/json)
 
     + Attributes (PostStream)
-    
+
     + Headers
 
             Link: <https://ello.co/api/v2/discover/posts/recent?before=abcd123per_page=25>; rel="next"
@@ -200,7 +200,7 @@ What is trending across the entire network.
 + Response 200 (application/json)
 
     + Attributes (PostStream)
-    
+
     + Headers
 
             Link: <https://ello.co/api/v2/discover/posts/trending?page=2&per_page=25>; rel="next"
@@ -241,7 +241,7 @@ What is trending from users you follow.
 + Response 200 (application/json)
 
     + Attributes (PostStream)
-    
+
     + Headers
 
             Link: <https://ello.co/api/v2/following/posts/trending?page=2&per_page=25>; rel="next"
@@ -307,12 +307,51 @@ TODO
 
 ### Post
 + id: 123 (string)
++ token: f8ywrbfd9vu0wniu-bqvn (string)
++ href: /api/v2/posts/6540 (string) - Relative url to retreive this post.
++ summary (array[PostBlock])
++ content (array[PostBlock])
++ body (array[RawPostBlock])
++ repost_content (array[PostBlock])
++ views_count: 1523 (number) - Number of views this post has received.
++ reposts_count: 0 (number) - Number of reposts this post has recieved.
++ loves_count: 0 (number) - Number of loves this post has received.
++ comments_count: 0 (number) - Number of comments this post has received.
++ watching: false (boolean) - Is the accessing user watching for activity on this post?
++ reposted: false (boolean) - Has the accessing user reposted this post?
++ loved: false (boolean) - Has the accessing user loved this post?
++ is_adult_content: false (boolean) - Is this post marked as adult content.
++ content_warning: (string, optional) - Displays warning for 3rd party content when applicable.
++ created_at: "2017-05-17T22:55:05.229652Z" (date) - When post was created.
++ repost_id: (string, optional)
 + author_id: 456 (string)
 + links (object)
     + author (object)
         + id:   456 (string)
         + href: /api/v2/users/456 (string)
         + type: users (string)
+    + categories: 321 (array[string])
+    + assets 987 (array[string])
+    + reposted_source (object, optional)
+        + id:   123 (string)
+        + href: /api/v2/posts/123 (string)
+        + type: posts (string)
+    + reposted_author (object, optional)
+        + id:   456 (string)
+        + href: /api/v2/users/456 (string)
+        + type: users (string)
+
+### PostBlock (enum[ImagePostBlock,TextPostBlock])
+
+### ImagePostBlock
++ kind: image (string)
++ link_url: null (string)
++ data (object)
+    + url: https://assets1.ello.co/uploads/asset/attachment/987/ello-optimized-67949d24.jpg",
+    + alt: "ello world"
++ links (object)
+    + assets: 987 (string)
+
 
 ### User
 + id: 456 (string)
