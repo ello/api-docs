@@ -173,7 +173,7 @@ All the newest posts across the network - time ordered.
                 "$ref": "https://ello.ninja/api/schema/post.json"
             }
 
-### Trending Post Stream [GET /api/v2/discover/posts/trending{?per_page,page,images_only]
+### Trending Post Stream [GET /api/v2/discover/posts/trending{?per_page,page,images_only}]
 What is trending across the entire network.
 
 + Parameters
@@ -181,7 +181,7 @@ What is trending across the entire network.
         + default: 25
     + page: 3 (number, optional) - What page to retreive.
         + default: 1
-    + images_only: true (string, optional) - When present only posts with images will be included.
+    + images_only: true (boolean, optional) - When present only posts with images will be included.
 
 + Request
     + Headers
@@ -282,19 +282,19 @@ TODO
 ## Data Structures
 
 ### Post
-+ id: (string)
-+ author_id: (string)
-+ links
-    + author
++ id: "123" (string)
++ author_id: "456" (string)
++ links (object)
+    + author (object)
         + id:   The author's id (string)
         + href: relative URL to retreive author. (string)
         + type: The type of record - always 'users'. (string)
 
 ### User
-+ id: (string)
++ id: "456" (string)
 
 ### Asset
-+ id: (string)
++ id: "789" (string)
 
 ## Group Appendix
 
