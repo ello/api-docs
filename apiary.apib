@@ -39,11 +39,12 @@ All discovery endpoint exclude adult content.
 
 Editorials are an Ello Staff curated resource highlighting the best content on network.
 
-Editorials come in 3 kinds all mixed in the same stream, `post`, `post_stream`, and `external`:
+Editorials come in 4 kinds all mixed in the same stream, `post`, `post_stream`, `internal`, and `external`:
 
 * `post` editorials include a post alongside the response.
 * `post_stream` editorials include an api endpoint to retreive a stream of posts to be consumed by an Ello API client.
-* `external` include a web url to be opened in a browser.
+* `internal editorials link to a page on the ello site and have a `path` property.
+* `external` include a web url to be opened in a browser and have a `url` property.
 
 ### Editorial Stream [GET /api/v2/editorials{?per_page,before}]
 
@@ -62,6 +63,9 @@ Retreive a page of editorials of all types.
             Accept: application/json
 
 + Response 200 (application/json)
+
+    + Attributes (EditorialStream)
+    
     + Headers
 
             Link: <https://ello.co/api/v2/editorials?before=979&per_page=25>; rel="next"
@@ -287,16 +291,6 @@ TODO
 
 TODO
 
-
-
-## Group Appendix
-
-### Terminology
-
-* **Post Stream** - A list of posts that is paginated over. Includes post assets, author, and repost data.
-
-### JSON Schemas
-
 ## Data Structures
 
 ### Post
@@ -358,8 +352,52 @@ TODO
 + id: 789 (string)
 
 ### PostStream
-
 + posts (array[Post])
 + linked (object)
+    + users (array[User])
+    + assets (array[Asset])
+    
+### Editorial (enum[PostEditorial,InternalEditorial,ExternalEditorial,PostStreamEditorial])
+
+### PostEditorial
++ id: 1111 (string)
++ kind: post (string)
++ title: Check out this post (string)
++ subtitle: it is amazing (string)
++ links (object)
+    + post (object)
+        + id: 123 (string) - Id of post, typically included in linked response
+        + type: posts (string)
+        + href: /api/v2/posts/1
+
+### InternalEditorial
++ id: 1112 (string)
++ kind: internal (string)
++ title: New Category (string)
++ subtitle: Crystals! (string)
++ path: /discover/crystals (string)
++ links: null
+
+### ExternalEditorial
++ id: 1113 (string)
++ kind: external (string)
++ title: Badges? (string)
++ subtitle: We don't need no stinking badges (string)
++ path: https://ello.co/wft/badges (string)
++ links: null
+
+### PostStreamEditorial
++ id: 1111 (string)
++ kind: post_stream (string)
++ title: Some great posts (string)
++ links (object)
+    + post_stream (object)
+        + type: posts (string)
+        + href: /api/v2/following/posts/trending?per_page=5&images_only=true (string) - Url to retrieve posts
+
+### EditorialStream
++ editorials (array[Editorial])
++ linked (object)
+    + posts (array[Post])
     + users (array[User])
     + assets (array[Asset])
