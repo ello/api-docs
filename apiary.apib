@@ -129,11 +129,56 @@ A list of all the categories.
             {
                 "$ref": "https://ello.ninja/api/schema/category.json"
             }
-    
 
-### Recent Post Stream [GET /api/v2/categories/{slug}/posts/recent]
-All the newest posts in the given category  - time ordered.
+### Get Category [GET /api/v2/categories/{id}]
+Get a single category
+
++ Parameters
+    + id: 1234 (string, required)
+
 + Response 200 (application/json)
+
+    + Attributes
+            
+            + categories (Category)
+            + linked (object)
+                + users (array[User])
+                + promotionals (array[Promotional])
+    
+    + Schema
+
+            {
+                "$ref": "https://ello.ninja/api/schema/category.json"
+            }
+
+### Recent Post Stream [GET /api/v2/categories/{slug}/posts/recent{?per_page,before}]
+A paginated, time ordered stream of posts in the given category.
+
++ Parameters
+    + slug: art (string, required) - The url `slug` property of the category desired.
+    + per_page: 25 (number, optional) - Number of editorials to return per page.
+        + default: 25
+    + before: 32423Aasdf34er (string, optional) - Pagination Cursor.
+
++ Request
+    + Headers
+
+            Authortization: Bearer JWT
+            Accept: application/json
+
++ Response 200 (application/json)
+
+    + Attributes (PostStream)
+
+    + Headers
+
+            Link: <https://ello.co/api/v2/categories/art/posts/recent?before=asdfsdfA23434&per_page=25>; rel="next"
+
+    + Schema
+
+            {
+                "$ref": "https://ello.ninja/api/schema/post.json"
+            }
 
 ### Trending Post Stream [GET /api/v2/categories/{slug}/posts/trending{?per_page,page,images_only}]
 What is trending in the given category.
@@ -166,9 +211,33 @@ What is trending in the given category.
                 "$ref": "https://ello.ninja/api/schema/post.json"
             }
 
-### Featured Post Stream [GET /api/v2/categories/posts/recent]
+### Featured Post Stream [GET /api/v2/categories/posts/recent{?per_page,before}]
 All the newest posts across all the categories  - time ordered.
+
++ Parameters
+    + per_page: 25 (number, optional) - Number of editorials to return per page.
+        + default: 25
+    + before: 32423Aasdf34er (string, optional) - Pagination Cursor.
+
++ Request
+    + Headers
+
+            Authortization: Bearer JWT
+            Accept: application/json
+
 + Response 200 (application/json)
+
+    + Attributes (PostStream)
+
+    + Headers
+
+            Link: <https://ello.co/api/v2/categoriesp/posts/recent?before=asdfsdfA23434&per_page=25>; rel="next"
+
+    + Schema
+
+            {
+                "$ref": "https://ello.ninja/api/schema/post.json"
+            }
 
 ## Discovery [/api/v2/discover/posts]
 
