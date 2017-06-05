@@ -106,9 +106,30 @@ of editorial in the editorial stream.
 
 ## Categories [/api/v2/categories]
 
-### List All [GET /api/v2/categories]
+### List All [GET /api/v2/categories{?meta,all}]
 A list of all the categories.
+
++ Parameters
+    + meta: true (boolean, optional) - Include 'meta' categories such as 'featured', 'trending' and 'recent'.
+        + default: false
+    + all: true (boolean, optional) - Include inactive categories.
+        + default: false
+
 + Response 200 (application/json)
+
+    + Attributes
+            
+            + categories (array[Category])
+            + linked (object)
+                + users (array[User])
+                + promotionals (array[Promotional])
+    
+    + Schema
+
+            {
+                "$ref": "https://ello.ninja/api/schema/category.json"
+            }
+    
 
 ### Recent Post Stream [GET /api/v2/categories/{slug}/posts/recent]
 All the newest posts in the given category  - time ordered.
@@ -350,12 +371,42 @@ TODO
 
 ### Asset
 + id: 789 (string)
++ attachment (Image)
+
+### Category
++ id: 888 (string)
++ name: NFP 3 (string)
++ header: NFP 3 (string)
++ description: Awesome new artist invite (string)
++ cta_caption: Submissions open (string)
++ cta_href: `https://ello.co/gross_mag/post/99jaqvjadl9dr3qg7-byna` (string)
++ allow_in_onboarding: false (boolean) - List category in onboarding as category to follow
++ uses_page_promotionals: false (boolean)
++ is_sponsored: false (boolean)
++ level: primary (string)
++ order: 2 (number)
++ tile_image (Image)
++ links (object)
+    + recent (object)
+        + related: /api/v2/categories/nfp3/posts/recent
+        
+### Promotional
++ id: 889 (string)
++ category_id: 888 (string)
++ user_id: 456 (string)
++ image (Image)
++ links (object)
+    + user (object)
+        + id:   456 (string)
+        + href: /api/v2/users/456 (string)
+        + type: users (string)
 
 ### PostStream
 + posts (array[Post])
 + linked (object)
     + users (array[User])
     + assets (array[Asset])
+    + categories (array[Category])
     
 ### Editorial (enum[PostEditorial,InternalEditorial,ExternalEditorial,PostStreamEditorial])
 
@@ -369,6 +420,10 @@ TODO
         + id: 123 (string) - Id of post, typically included in linked response
         + type: posts (string)
         + href: /api/v2/posts/1
++ one_by_one_image (Image)
++ one_by_two_image (Image)
++ two_by_one_image (Image)
++ two_by_two_image (Image)
 
 ### InternalEditorial
 + id: 1112 (string)
@@ -377,6 +432,10 @@ TODO
 + subtitle: Crystals! (string)
 + path: /discover/crystals (string)
 + links: null
++ one_by_one_image (Image)
++ one_by_two_image (Image)
++ two_by_one_image (Image)
++ two_by_two_image (Image)
 
 ### ExternalEditorial
 + id: 1113 (string)
@@ -385,6 +444,10 @@ TODO
 + subtitle: We don't need no stinking badges (string)
 + path: https://ello.co/wft/badges (string)
 + links: null
++ one_by_one_image (Image)
++ one_by_two_image (Image)
++ two_by_one_image (Image)
++ two_by_two_image (Image)
 
 ### PostStreamEditorial
 + id: 1111 (string)
@@ -394,6 +457,10 @@ TODO
     + post_stream (object)
         + type: posts (string)
         + href: /api/v2/following/posts/trending?per_page=5&images_only=true (string) - Url to retrieve posts
++ one_by_one_image (Image)
++ one_by_two_image (Image)
++ two_by_one_image (Image)
++ two_by_two_image (Image)
 
 ### EditorialStream
 + editorials (array[Editorial])
@@ -401,3 +468,20 @@ TODO
     + posts (array[Post])
     + users (array[User])
     + assets (array[Asset])
+    + categories (array[Category])
+
+### ImageVersion
++ url: `https://assets1.ello.co/uploads/model/attribute/108/ello-hdpi-7ba79457.jpg` (string) - URL to retreive image
++ metadata (object)
+    + width: 750 (number) - Image witdh in pixels
+    + height: 750 (number) - Image height in pixels
+    + type: image/jpeg (string) - Image format mime type
+    + size: 362235 (number) - Image size in bytes
+
+### Image
++ xhdpi (ImageVersion)
++ hdpi (ImageVersion)
++ mdpi (ImageVersion)
++ ldpi (ImageVersion)
++ original (ImageVersion)
++ optimized (ImageVersion)
