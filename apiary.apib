@@ -317,7 +317,7 @@ All the newest posts from the users you follow - time ordered.
 + Request
     + Headers
 
-            Authortization: Bearer JWT
+            Authortization: Bearer User Authenticated JWT
             Accept: application/json
 
 + Response 200 (application/json)
@@ -334,6 +334,30 @@ nt
                 "$ref": "https://ello.ninja/api/schema/post.json"
             }
 
+### Recent Stream Updated? [HEAD /api/v2/following/posts/recent]
+Has the following recent stream had new posts added since I last checked? The most recent post's created_at you have should
+be added as the If-Modified-Since header in the RFC2616 format.
+
++ Request
+    + Headers
+
+            Authortization: Bearer User Authenticated JWT
+            Accept: application/json
+            If-Modified-Since: Tue, 06 Jun 2007 12:48:15 GMT
+
+
++ Response 204
+
+    Yes there are new posts! A request to GET /api/v2/following/posts/recent is a good idea.
+    
+    + Body
+
++ Response 304
+
+    There are no new posts. Further get requests will return no new posts.
+    
+    + Body
+    
 ### Trending Post Stream [GET /api/v2/following/posts/trending{?per_page,page,images_only}]
 What is trending from users you follow.
 
