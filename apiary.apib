@@ -333,6 +333,86 @@ Retreive a page of editorials of all types.
             {
                 "$ref": "https://ello.ninja/api/schema/artist_invite.json"
             }
+            
+
+#### Show [GET /api/v2/artist_invites/{slug}]
+Retreive a page of editorials of all types.
+
++ Parameters
+    + slug: ello-guest-editorial (string, required) - Slug of the artist invite to get.
+      
++ Request
+    + Headers
+
+            Authorization: Bearer JWT
+            Accept: application/json
+
++ Response 200 (application/json)
+
+    + Attributes
+            
+            + artist_invites (ArtistInvite)
+    
+    + Schema
+
+            {
+                "$ref": "https://ello.ninja/api/schema/artist_invite.json"
+            }
+            
+#### Submissions [GET /api/v2/artist_invites/{slug}/submissions{?before,per_page}]
+
+Get a page of accepted submissions (posts), in reverse chronological order. 
+
++ Parameters
+    + slug: ello-guest-editorial (string, required) - Slug of the artist invite to get submissions for.
+    + per_page: 10 (number, optional) - Number of submissions (posts) to return per page.
+        + default: 10
+    + before: 354 (string, optional) - Pageination cursor, where to start this page. Next page returned in the `link` header.
+  
++ Request
+    + Headers
+
+            Authorization: Bearer JWT
+            Accept: application/json
+
++ Response 200 (application/json)
+
+    + Attributes (PostStream)
+    
+    + Headers
+
+            Link: <https://ello.co/api/v2/artist_invites/:slug/submissions?before=abc&per_page=10>; rel="next"
+
+    
+    + Schema
+
+            {
+                "$ref": "https://ello.ninja/api/schema/posts.json"
+            }
+
+            
+#### Selections [GET /api/v2/artist_invites/{slug}/selections]
+
+Get all selections (posts). Returns 204 until artist invite is closed and all selections made.
+
++ Parameters
+    + slug: ello-guest-editorial (string, required) - Slug of the artist invite to get submissions for.
+
++ Request
+    + Headers
+
+            Authorization: Bearer JWT
+            Accept: application/json
+
++ Response 200 (application/json)
+
+    + Attributes (PostStream)
+    
+    + Schema
+
+            {
+                "$ref": "https://ello.ninja/api/schema/post.json"
+            }
 
 ## Group Personal Resources
 
