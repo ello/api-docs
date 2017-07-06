@@ -35,7 +35,7 @@ The discovery endpoints are all targeted at helping users find the freshest, bes
 
 All discovery endpoint exclude adult content.
 
-## Editorials [/api/v2/editorials]
+### Editorials [/api/v2/editorials]
 
 Editorials are an Ello Staff curated resource highlighting the best content on network.
 
@@ -46,7 +46,7 @@ Editorials come in 4 kinds all mixed in the same stream, `post`, `post_stream`, 
 * `internal editorials link to a page on the ello site and have a `path` property.
 * `external` include a web url to be opened in a browser and have a `url` property.
 
-### Editorial Stream [GET /api/v2/editorials{?per_page,before}]
+#### Editorial Stream [GET /api/v2/editorials{?per_page,before}]
 
 Retreive a page of editorials of all types.
 
@@ -76,7 +76,7 @@ Retreive a page of editorials of all types.
                 "$ref": "https://ello.ninja/api/schema/editorial.json"
             }
 
-### Editorial Posts [GET /api/v2/editorials/post?token[]={token1}&token[]={token2}]
+#### Editorial Posts [GET /api/v2/editorials/post?token[]={token1}&token[]={token2}]
 
 Get a set of posts by token. The `token[]` param can me used multiple times.
 
@@ -104,9 +104,9 @@ of editorial in the editorial stream.
             }
 
 
-## Categories [/api/v2/categories]
+### Categories [/api/v2/categories]
 
-### List All [GET /api/v2/categories{?meta,all}]
+#### List All [GET /api/v2/categories{?meta,all}]
 A list of all the categories.
 
 + Parameters
@@ -130,7 +130,7 @@ A list of all the categories.
                 "$ref": "https://ello.ninja/api/schema/category.json"
             }
 
-### Get Category [GET /api/v2/categories/{id}]
+#### Get Category [GET /api/v2/categories/{id}]
 Get a single category
 
 + Parameters
@@ -151,7 +151,7 @@ Get a single category
                 "$ref": "https://ello.ninja/api/schema/category.json"
             }
 
-### Recent Post Stream [GET /api/v2/categories/{slug}/posts/recent{?per_page,before}]
+#### Recent Post Stream [GET /api/v2/categories/{slug}/posts/recent{?per_page,before}]
 A paginated, time ordered stream of posts in the given category.
 
 + Parameters
@@ -180,7 +180,7 @@ A paginated, time ordered stream of posts in the given category.
                 "$ref": "https://ello.ninja/api/schema/post.json"
             }
 
-### Trending Post Stream [GET /api/v2/categories/{slug}/posts/trending{?per_page,page,images_only}]
+#### Trending Post Stream [GET /api/v2/categories/{slug}/posts/trending{?per_page,page,images_only}]
 What is trending in the given category.
 
 + Parameters
@@ -211,7 +211,7 @@ What is trending in the given category.
                 "$ref": "https://ello.ninja/api/schema/post.json"
             }
 
-### Featured Post Stream [GET /api/v2/categories/posts/recent{?per_page,before}]
+#### Featured Post Stream [GET /api/v2/categories/posts/recent{?per_page,before}]
 All the newest posts across all the categories  - time ordered.
 
 + Parameters
@@ -239,9 +239,9 @@ All the newest posts across all the categories  - time ordered.
                 "$ref": "https://ello.ninja/api/schema/post.json"
             }
 
-## Discovery [/api/v2/discover/posts]
+### Discovery [/api/v2/discover/posts]
 
-### Recent Post Stream [GET /api/v2/discover/posts/recent{?per_page,before}]
+#### Recent Post Stream [GET /api/v2/discover/posts/recent{?per_page,before}]
 All the newest posts across the network - time ordered.
 
 + Parameters
@@ -269,7 +269,7 @@ All the newest posts across the network - time ordered.
                 "$ref": "https://ello.ninja/api/schema/post.json"
             }
 
-### Trending Post Stream [GET /api/v2/discover/posts/trending{?per_page,page,images_only}]
+#### Trending Post Stream [GET /api/v2/discover/posts/trending{?per_page,page,images_only}]
 What is trending across the entire network.
 
 + Parameters
@@ -282,7 +282,7 @@ What is trending across the entire network.
 + Request
     + Headers
 
-            Authortization: Bearer JWT
+            Authorization: Bearer JWT
             Accept: application/json
 
 + Response 200 (application/json)
@@ -299,14 +299,48 @@ What is trending across the entire network.
                 "$ref": "https://ello.ninja/api/schema/post.json"
             }
 
+## Group Contests
+
+The contest endpoints revolve around the primary way Ello helps artist get paid
+
+### Artist Invites [/api/v2/artist_invites]
+
+
+#### List [GET /api/v2/artist_invites{?per_page,page}]
+Retreive a page of editorials of all types.
+
++ Parameters
+    + per_page: 10 (number, optional) - Number of artist invites to return per page.
+        + default: 10
+    + page: 354 (number, optional) - Page number, where to start this page. Next page returned in the `link` header.
+
++ Request
+    + Headers
+
+            Authorization: Bearer JWT
+            Accept: application/json
+
++ Response 200 (application/json)
+
+    + Attributes (ArtistInviteStream)
+    
+    + Headers
+
+            Link: <https://ello.co/api/v2/artist_invites?page=2&per_page=10>; rel="next"
+
+    + Schema
+
+            {
+                "$ref": "https://ello.ninja/api/schema/artist_invite.json"
+            }
 
 ## Group Personal Resources
 
 These resources are only available to the currently logged in user.
 
-## Following Stream [/api/v2/following/posts]
+### Following Stream [/api/v2/following/posts]
 
-### Recent Post Stream [GET /api/v2/following/posts/recent{?per_page,before}]
+#### Recent Post Stream [GET /api/v2/following/posts/recent{?per_page,before}]
 All the newest posts from the users you follow - time ordered.
 
 + Parameters
@@ -334,7 +368,7 @@ nt
                 "$ref": "https://ello.ninja/api/schema/post.json"
             }
 
-### Recent Stream Updated? [HEAD /api/v2/following/posts/recent]
+#### Recent Stream Updated? [HEAD /api/v2/following/posts/recent]
 Has the following recent stream had new posts added since I last checked? The most recent post's created_at you have should
 be added as the If-Modified-Since header in the RFC2616 format.
 
@@ -358,7 +392,7 @@ be added as the If-Modified-Since header in the RFC2616 format.
     
     + Body
     
-### Trending Post Stream [GET /api/v2/following/posts/trending{?per_page,page,images_only}]
+#### Trending Post Stream [GET /api/v2/following/posts/trending{?per_page,page,images_only}]
 What is trending from users you follow.
 
 + Parameters
@@ -388,36 +422,36 @@ What is trending from users you follow.
                 "$ref": "https://ello.ninja/api/schema/post.json"
             }
 
-## Profile [/api/v2/profile]
+### Profile [/api/v2/profile]
 
-### View [GET /api/v2/profile]
+#### View [GET /api/v2/profile]
 + Response 200 (application/json)
 
-### Update [PATCH /api/v2/profile]
+#### Update [PATCH /api/v2/profile]
 + Response 200 (application/json)
 
-### Settings [GET /api/v2/profile/settings]
+#### Settings [GET /api/v2/profile/settings]
 + Response 200 (application/json)
 
-### Blocked [GET /api/v2/profile/settings/blocked]
+#### Blocked [GET /api/v2/profile/settings/blocked]
 + Response 200 (application/json)
 
-### Muted [GET /api/v2/profile/settings/muted]
+#### Muted [GET /api/v2/profile/settings/muted]
 + Response 200 (application/json)
 
 ## Group Search
 
-## User Search [/api/v2/users]
+### User Search [/api/v2/users]
 
-### User Search [GET /api/v2/users?terms=terms]
+#### User Search [GET /api/v2/users?terms=terms]
 + Response 200 (application/json)
 
-### Username Autocomplete [GET /api/v2/users/autocomplete?terms=terms]
+#### Username Autocomplete [GET /api/v2/users/autocomplete?terms=terms]
 + Response 200 (application/json)
 
-## Post Search [/api/v2/posts]
+### Post Search [/api/v2/posts]
 
-### Post Search [GET /api/v2/posts?terms=terms]
+#### Post Search [GET /api/v2/posts?terms=terms]
 + Response 200 (application/json)
 
 
@@ -602,3 +636,37 @@ TODO
 + ldpi (ImageVersion)
 + original (ImageVersion)
 + optimized (ImageVersion)
+
+### ArtistInvite
++ id: 765 (string)
++ title: Ello Guest Editor (string) - Display title
++ slug: ello-guest-editor (string) - URL for sub resources
++ invite_type: Editorship (string) - type of invite; the subtitle
++ opened_at: `2017-05-17T22:55:05.229652Z` (string) - When submissions open
++ closed_at: `2017-05-17T22:55:05.229652Z` (string) - When submissions close
++ status: upcoming, open, selecting, closed, preview (enum) - What the 
++ description: <p>Your chance to help ...</p> (string) - Rendered html description of invite
++ short_description: <p>Your chance to help ...</p> (string) - Short, rendered html description of invite
++ submission_body_block: My #elloguesteditorial submission :ello: (string) - Raw text to be included as a block when clicking submit. Will be processed for links/notifications/emojis etc when post is created.
++ guide (array[ArtistInviteBlock])
++ header_image (Image)
++ logo_image (Image)
++ links (object)
+    + brand (object)
+        + type: users (string)
+        + id: 222 (string) - id of user/brand running the contenst
+        + href: /api/v2/users/:username (string) - Url of user/brand running the contest
+    + submissions
+        + type: post_stream (string)
+        + href: /api/v2/artist_invites/:slug/submissions (string) - URL to get a post stream of submissions
+    + selections
+        + type: post_stream (string)
+        + href: /api/v2/artist_invites/:slug/selections (string) - URL to get a post stream of the selections. Returns 204 until selections are finished.
+
+
+### ArtistInviteBlock
++ title: How To Submit (string) - title of the block
++ body: <p>To submit....</p> (string) - Rendered html comprising the body of the block
+
+### ArtistInviteStream
++ artist_invites (array[ArtistInvite])
