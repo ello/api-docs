@@ -377,7 +377,7 @@ Get a page of accepted submissions (posts), in reverse chronological order.
 
 + Response 200 (application/json)
 
-    + Attributes (PostStream)
+    + Attributes (ArtistInviteSubmissionStream)
     
     + Headers
 
@@ -406,7 +406,7 @@ Get all selections (posts). Returns 204 until artist invite is closed and all se
 
 + Response 200 (application/json)
 
-    + Attributes (PostStream)
+    + Attributes (ArtistInviteSubmissionStream)
     
     + Schema
 
@@ -724,7 +724,7 @@ TODO
 + invite_type: Editorship (string) - type of invite; the subtitle
 + opened_at: `2017-05-17T22:55:05.229652Z` (string) - When submissions open
 + closed_at: `2017-05-17T22:55:05.229652Z` (string) - When submissions close
-+ status: upcoming, open, selecting, closed, preview (enum) - What the 
++ status: upcoming, open, selecting, closed, preview (enum) - Status of the artist invite
 + description: <p>Your chance to help ...</p> (string) - Rendered html description of invite
 + short_description: <p>Your chance to help ...</p> (string) - Short, rendered html description of invite
 + submission_body_block: My #elloguesteditorial submission :ello: (string) - Raw text to be included as a block when clicking submit. Will be processed for links/notifications/emojis etc when post is created.
@@ -750,3 +750,19 @@ TODO
 
 ### ArtistInviteStream
 + artist_invites (array[ArtistInvite])
+
+### ArtistInviteSubmission
++ id: 123_765 (string)
++ status: submitted, accepted, selected (enum)
++ links (object)
+    + post (object)
+        + type: posts (string)
+        + id: 123 (string
+    + artist_invite (object)
+        + type: artist_invite (string)
+        + id: 789 (string)
+
+### ArtistInviteSubmissionStream
++ artist_invite_submissions (array[ArtistInviteSubmission])
++ linked (object)
+    + posts (array[Post])
