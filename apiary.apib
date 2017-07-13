@@ -359,12 +359,20 @@ Retreive a page of editorials of all types.
                 "$ref": "https://ello.ninja/api/schema/artist_invite.json"
             }
             
-#### Submissions [GET /api/v2/artist_invites/{slug}/submissions{?before,per_page}]
+#### Submissions [GET /api/v2/artist_invites/{slug}/submissions{?status,before,per_page}]
 
-Get a page of accepted submissions (posts), in reverse chronological order. 
+Get a page of submissions in reverse chronological order. Defaults to approved submissions.
+
+Until an artist invite is closed the selected submissions will be returned as "approved" submission.
+
+Brands and staff users may access unapproved submissions at anytime.
+
+Selected submissions will return 204 until artist invite is closed, unless accessed by brand or staff.
 
 + Parameters
     + slug: ello-guest-editorial (string, required) - Slug of the artist invite to get submissions for.
+    + status: selected (string, optional) - The stuatus of submissions to retreive.
+        + default: approved
     + per_page: 10 (number, optional) - Number of submissions (posts) to return per page.
         + default: 10
     + before: 354 (string, optional) - Pageination cursor, where to start this page. Next page returned in the `link` header.
@@ -387,32 +395,9 @@ Get a page of accepted submissions (posts), in reverse chronological order.
     + Schema
 
             {
-                "$ref": "https://ello.ninja/api/schema/posts.json"
+                "$ref": "https://ello.ninja/api/schema/artist_invite_submission.json"
             }
 
-            
-#### Selections [GET /api/v2/artist_invites/{slug}/selections]
-
-Get all selections (posts). Returns 204 until artist invite is closed and all selections made.
-
-+ Parameters
-    + slug: ello-guest-editorial (string, required) - Slug of the artist invite to get submissions for.
-
-+ Request
-    + Headers
-
-            Authorization: Bearer JWT
-            Accept: application/json
-
-+ Response 200 (application/json)
-
-    + Attributes (ArtistInviteSubmissionStream)
-    
-    + Schema
-
-            {
-                "$ref": "https://ello.ninja/api/schema/post.json"
-            }
 
 ## Group Personal Resources
 
@@ -736,13 +721,15 @@ TODO
         + type: users (string)
         + id: 222 (string) - id of user/brand running the contenst
         + href: /api/v2/users/:username (string) - Url of user/brand running the contest
-    + submissions
-        + type: post_stream (string)
-        + href: /api/v2/artist_invites/:slug/submissions (string) - URL to get a post stream of submissions
-    + selections
-        + type: post_stream (string)
-        + href: /api/v2/artist_invites/:slug/selections (string) - URL to get a post stream of the selections. Returns 204 until selections are finished.
-
+    + unapproved_submissions - only present if brand or staff
+        + type: artist_invite_submission_stream (string)
+        + href: /api/v2/artist_invites/:slug/submissions?status=sumbitted (string) - URL to get stream of submissions
+    + approved_submissions - includes approved/selected unless staff or brand
+        + type: artist_invite_submission_stream (string)
+        + href: /api/v2/artist_invites/:slug/submissions?status=approved (string) - URL to get a post stream of submissions
+    + selected_submissions - only present if staff/brand or invite is closed
+        + type: artist_invite_submission_stream (string)
+        + href: /api/v2/artist_invites/:slug/submissions?status=approved (string) - URL to get a post stream of submissions
 
 ### ArtistInviteBlock
 + title: How To Submit (string) - title of the block
@@ -753,7 +740,7 @@ TODO
 
 ### ArtistInviteSubmission
 + id: 123_765 (string)
-+ status: submitted, accepted, selected (enum)
++ status: submitted, approved, selected (enum)
 + links (object)
     + post (object)
         + type: posts (string)
@@ -761,6 +748,18 @@ TODO
     + artist_invite (object)
         + type: artist_invite (string)
         + id: 789 (string)
+    + approve (object, optional)
+        + type: artist_invite_submission (string)
+        + method: PATCH (string)
+        + href: /api/v2/artist_invite_submission/123_765/approve
+    + unapprove (object, optional)
+        + type: artist_invite_submission (string)
+        + method: PATCH (string)
+        + href: /api/v2/artist_invite_submission/123_765/unapprove
+    + select (object, optional)
+        + method: PATCH (string)
+        + type: artist_invite_submission (string)
+        + href: /api/v2/artist_invite_submission/123_765/select
 
 ### ArtistInviteSubmissionStream
 + artist_invite_submissions (array[ArtistInviteSubmission])
