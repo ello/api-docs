@@ -397,6 +397,26 @@ Selected submissions will return 204 until artist invite is closed, unless acces
             {
                 "$ref": "https://ello.ninja/api/schema/artist_invite_submission.json"
             }
+            
+#### Update Submission [PATCH /api/v2/artist_invite_submissions/:id]
+
+Only available to the brand user account managing the invite and ello staff users. Updates a submission's status.
+
++ Request
+    + Attributes
+        + status: unapproved, approved, selected (enum)
+
+    + Headers
+
+            Authorization: Bearer JWT
+            Accept: application/json
+
++ Response 200 (application/json)
+
+    + Attributes (ArtistInviteSubmission)
+    
++ Response 401
+
 
 
 ## Group Personal Resources
@@ -565,6 +585,9 @@ TODO
         + id:   456 (string)
         + href: /api/v2/users/456 (string)
         + type: users (string)
+    + artist_invite (object, optional)
+        + id: 987 (string)
+        + type: artist_invite (string)
 
 ### PostBlock (enum[ImagePostBlock,TextPostBlock])
 
@@ -723,13 +746,13 @@ TODO
         + href: /api/v2/users/:username (string) - Url of user/brand running the contest
     + unapproved_submissions - only present if brand or staff
         + type: artist_invite_submission_stream (string)
-        + href: /api/v2/artist_invites/:slug/submissions?status=sumbitted (string) - URL to get stream of submissions
+        + href: /api/v2/artist_invites/:slug/submissions?status=unapproved (string) - URL to get stream of submissions
     + approved_submissions - includes approved/selected unless staff or brand
         + type: artist_invite_submission_stream (string)
         + href: /api/v2/artist_invites/:slug/submissions?status=approved (string) - URL to get a post stream of submissions
     + selected_submissions - only present if staff/brand or invite is closed
         + type: artist_invite_submission_stream (string)
-        + href: /api/v2/artist_invites/:slug/submissions?status=approved (string) - URL to get a post stream of submissions
+        + href: /api/v2/artist_invites/:slug/submissions?status=selected (string) - URL to get a post stream of submissions
 
 ### ArtistInviteBlock
 + title: How To Submit (string) - title of the block
@@ -740,7 +763,36 @@ TODO
 
 ### ArtistInviteSubmission
 + id: 123_765 (string)
-+ status: submitted, approved, selected (enum)
++ status: unapproved, approved, selected (enum)
++ actions (object) - Actions that can be taken on this object by name.
+     + approve (object, optional)
+        + label: Approve (string)
+        + type: artist_invite_submission (string)
+        + method: PATCH (string)
+        + href: /api/v2/artist_invite_submission/123_765 (string)
+        + body (object)
+            + status: approved (string)
+    + unapprove (object, optional)
+        + label: Unapprove (string)
+        + type: artist_invite_submission (string)
+        + method: PATCH (string)
+        + href: /api/v2/artist_invite_submission/123_765 (string)
+        + body (object)
+            + status: unapproved (string)
+    + select (object, optional)
+        + label: Select (string)
+        + method: PATCH (string)
+        + type: artist_invite_submission (string)
+        + href: /api/v2/artist_invite_submission/123_765 (string)
+        + body (object)
+            + status: selected (string)
+    + unselect (object, optional)
+        + label: Select (string)
+        + method: PATCH (string)
+        + type: artist_invite_submission (string)
+        + href: /api/v2/artist_invite_submission/123_765 (string)
+        + body (object)
+            + status: approved (string)a
 + links (object)
     + post (object)
         + type: posts (string)
@@ -748,18 +800,7 @@ TODO
     + artist_invite (object)
         + type: artist_invite (string)
         + id: 789 (string)
-    + approve (object, optional)
-        + type: artist_invite_submission (string)
-        + method: PATCH (string)
-        + href: /api/v2/artist_invite_submission/123_765/approve
-    + unapprove (object, optional)
-        + type: artist_invite_submission (string)
-        + method: PATCH (string)
-        + href: /api/v2/artist_invite_submission/123_765/unapprove
-    + select (object, optional)
-        + method: PATCH (string)
-        + type: artist_invite_submission (string)
-        + href: /api/v2/artist_invite_submission/123_765/select
+   
 
 ### ArtistInviteSubmissionStream
 + artist_invite_submissions (array[ArtistInviteSubmission])
