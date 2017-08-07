@@ -543,13 +543,40 @@ What is trending from users you follow.
 ## Group Network
 
 
-### Users [/api/v2/users/{id_or_slug}]
+### Users [/api/v2/users/{id_or_username}]
 
-#### User's Details [GET /api/v2/users/{id_or_slug}]
+#### User's Details [GET /api/v2/users/{id_or_username}]
 + Response 200 (application/json)
 
-#### User's Posts [GET /api/v2/users/{id_or_slug}/posts]
+#### User's Posts [GET /api/v2/users/{id_or_username}/posts{?per_page,before}]
+A user's posts and reposts in a paginated, time ordered stream.
+
++ Parameters
+    + id_or_username: `~ello` (string) - Id or username prefixed with ~ of user to retreive.
+    + per_page: 10 (number, optional) - Number of posts to return per page.
+        + default: 10
+    + before: 2016-01-11T18:02:10.642185Z  (string, optional) - The pagination cursor, returned in the `link` header of the previous page.
+
++ Request
+    + Headers
+
+            Authortization: Bearer JWT
+            Accept: application/json
+            
 + Response 200 (application/json)
+
+    + Attributes (PostStream)
+
+    + Headers
+
+            Link: <https://ello.co/api/v2/user/~ello/posts/trending?before=2016-01-11T18:02:10.642185Z&per_page=10>; rel="next"
+
+    + Schema
+
+            {
+                "$ref": "https://ello.ninja/api/schema/post.json"
+            }
+
 
 #### User's Loves [GET /api/v2/users/{id_or_slug}/loves]
 + Response 200 (application/json)
@@ -569,9 +596,35 @@ What is trending from users you follow.
 #### Post's Related Posts [GET /api/v2/posts/{token}/related]
 + Response 200 (application/json)
 
-#### Post's Comments [GET /api/v2/posts/{token}/comments]
+#### Post's Comments [GET /api/v2/posts/{id_or_token}/comments{?before,per_page}]
+A post's comments in a paginated, time ordered stream.
+
++ Parameters
+    + id_or_token: `~asdf2wrfsd` (string) - Id or token of post prefixed with ~ if token.
+    + per_page: 10 (number, optional) - Number of posts to return per page.
+        + default: 10
+    + before: 2016-01-11T18:02:10.642185Z  (string, optional) - The pagination cursor, returned in the `link` header of the previous page.
+
++ Request
+    + Headers
+
+            Authortization: Bearer JWT
+            Accept: application/json
+            
 + Response 200 (application/json)
 
+    + Attributes (CommentStream)
+
+    + Headers
+
+            Link: <https://ello.co/api/v2/posts/12345/comments?before=2016-01-11T18:02:10.642185Z&per_page=10>; rel="next"
+
+    + Schema
+
+            {
+                "$ref": "https://ello.ninja/api/schema/comment.json"
+            }
+            
 ## Group Other
 
 TODO
@@ -674,6 +727,28 @@ TODO
     + users (array[User])
     + assets (array[Asset])
     + categories (array[Category])
+    
+### Comment
++ id: 4347 (string)
++ post_id: 123 (string)
++ author_id: 456 (string)
++ summary (array[PostBlock])
++ content (array[PostBlock])
++ body (array[PostBlock])
++ created_at: `2017-05-17T22:55:05.229652Z` (string) - When post was created.
++ links (object)
+    + author (object)
+        + id:   456 (string)
+        + href: /api/v2/users/456 (string)
+        + type: users (string)
+    + assets 987 (array[string])
+    
+### CommentStream
++ comments (array[Comment])
++ linked (object)
+    + users (array[User])
+    + assets (array[Asset])
+    + parent_post (array[Post])
     
 ### Editorial (enum[PostEditorial,InternalEditorial,ExternalEditorial,PostStreamEditorial])
 
