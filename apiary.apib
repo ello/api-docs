@@ -1,21 +1,25 @@
 FORMAT: 1A
 HOST: https://ello.co/
 
-# Ello V2 API
+# Ello API V2 Documentation
 
-The Ello V2 API is the API driving all Ello clients, including the React Native Android app, the Swift iOS app, and the React web app.
+![ello](https://assets2.ello.co/uploads/user/avatar/641/ello-regular-492a3dcf.png)
 
-This documenation is a work in progress.
+This documentation is a work in progress. We are slowing pulling over documentation from our internal api docs as we update endpoints.
 
-### Getting Started
+The documentation is currently primarially focused on consumption - a side effect of our migrating endpoints to [apex](https://github.com/ello/apex) for performance.
+
+Please use the [issues list](https://github.com/ello/api-docs/issues) for questions and particular API endpoint documentation requests.
+
+**WARNING: This API is not officially public and is subject to breaking changes.**
+
+## Getting Started
 
 ### Using this documentation
 
-This documentation is primarally oriented at providing guidance on what endpoints are available and how to access them.
+This documentation is primarally oriented at providing guidance on what endpoints are available and how to access them. The data structure is documented, but subject to change.
 
 JSON structure is defined in our JSON Schemas, against which all endpoints are validated.
-
-### Patterns
 
 ### Example Implementations
 
@@ -25,9 +29,83 @@ All of Ello's client application are all open source. They can all serve as good
 * Web (React) - https://github.com/ello/webapp
 * Android (React Native) - https://github.com/ello/bender
 
+## About
+
+### Code of Conduct
+Ello was created by idealists who believe that the essential nature of all human beings is to be kind, considerate, helpful, intelligent, responsible, and respectful of others. To that end, we will be enforcing [the Ello rules](https://ello.co/wtf/policies/rules/) within all of our open source projects. If you don’t follow the rules, you risk being ignored, banned, or reported for abuse.
+
+### Contributing
+Bug reports and pull requests are welcome on GitHub at https://github.com/ello/api-docs.
+
+### License
+Ello API Docs are released under the [MIT License](https://github.com/ello/api-docs/LICENSE.txt)
+
+
 ## Group Authentication
 
-TODO
+Ello uses a customized OAuth 2.0 authentication process.
+All API endpoints require a valid OAuth Bearer token to be included in the Authorization header:
+
+```Authorization: Bearer [token here]```
+    
+There are two types of tokens that can be retrieved.
+
+### Tokens [/api]
+
+#### Public Token [GET /api/webapp-token]
+
+Public tokens can access any resource available when logged out.
+They require no credentails, but can not access your following etc.
+
++ Request
+    + Headers
+
+            Accept: application/json
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+        + token (PublicToken)
+    
+#### User Token [POST /api/v2/oauth/token/]
+
+User tokens access the Ello API on behalf of a specific user.
+
++ Request Client Credentials Password Grant
+
+    + Description
+            Request a new token with username, password, and oauth client id. 
+            
+    + Headers
+
+            Accept: application/json
+    
+    + Attributes
+        + client_id: asdfasdf8342w (string) - OAuth App Client ID
+        + email: usernameoremail (string) - username or email
+        + grant_type: password (string) - type of token authentication request
+        + password: notpassword1234 (string) - password
+
++ Request Refresh Token Grant
+    
+    + Description
+            Request a new token from a previously granted refresh token. 
+            
+    + Headers
+
+            Accept: application/json
+    
+    + Attributes
+        + client_id: asdfasdf8342w (string) - OAuth App Client ID
+        + refresh_token: asdbsdf213124 (string) - username or email
+        + grant_type: refresh_token (string) - type of token authentication request
+
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+        + token (UserToken)
+    
 
 ## Group Discovery
 
@@ -59,7 +137,7 @@ Retreive a page of editorials of all types.
 + Request
     + Headers
 
-            Authortization: Bearer JWT
+            Authorization: Bearer JWT
             Accept: application/json
 
 + Response 200 (application/json)
@@ -117,12 +195,11 @@ A list of all the categories.
 
 + Response 200 (application/json)
 
-    + Attributes
-            
-            + categories (array[Category])
-            + linked (object)
-                + users (array[User])
-                + promotionals (array[Promotional])
+    + Attributes (object)
+        + categories (array[Category])
+        + linked (object)
+            + users (array[User])
+            + promotionals (array[Promotional])
     
     + Schema
 
@@ -163,7 +240,7 @@ A paginated, time ordered stream of posts in the given category.
 + Request
     + Headers
 
-            Authortization: Bearer JWT
+            Authorization: Bearer JWT
             Accept: application/json
 
 + Response 200 (application/json)
@@ -194,7 +271,7 @@ What is trending in the given category.
 + Request
     + Headers
 
-            Authortization: Bearer JWT
+            Authorization: Bearer JWT
             Accept: application/json
 
 + Response 200 (application/json)
@@ -222,7 +299,7 @@ All the newest posts across all the categories  - time ordered.
 + Request
     + Headers
 
-            Authortization: Bearer JWT
+            Authorization: Bearer JWT
             Accept: application/json
 
 + Response 200 (application/json)
@@ -252,7 +329,7 @@ All the newest posts across the network - time ordered.
 + Request
     + Headers
 
-            Authortization: Bearer JWT
+            Authorization: Bearer JWT
             Accept: application/json
 
 + Response 200 (application/json)
@@ -436,7 +513,7 @@ All the newest posts from the users you follow - time ordered.
 + Request
     + Headers
 
-            Authortization: Bearer User Authenticated JWT
+            Authorization: Bearer User Authenticated JWT
             Accept: application/json
 
 + Response 200 (application/json)
@@ -460,7 +537,7 @@ be added as the If-Modified-Since header in the RFC2616 format.
 + Request
     + Headers
 
-            Authortization: Bearer User Authenticated JWT
+            Authorization: Bearer User Authenticated JWT
             Accept: application/json
             If-Modified-Since: Tue, 06 Jun 2007 12:48:15 GMT
 
@@ -490,7 +567,7 @@ What is trending from users you follow.
 + Request
     + Headers
 
-            Authortization: Bearer User Authenticated JWT
+            Authorization: Bearer User Authenticated JWT
             Accept: application/json
 
 + Response 200 (application/json)
@@ -904,4 +981,17 @@ TODO
 ### ArtistInviteSubmissionStream
 + artist_invite_submissions (array[ArtistInviteSubmission])
 + linked (object)
-    + posts (array[Post])
+
+### PublicToken
++ access_token: eyJ0eXAiOi (string) - The token to be used as a bearer token
++ token_type: bearer (string) - The type of token
++ created_at: 1234356789 (number) - When the token was created
++ expires_in: 3600 (number) - Seconds from created at when the token expires
+
+### UserToken
++ access_token: eyJ0eXAiOi (string) - The token to be used as a bearer token
++ token_type: bearer (string) - The type of token
++ scope: webapp (string)
++ created_at: 1234356789 (number) - When the token was created
++ expires_in: 3600 (number) - Seconds from created at when the token expires
++ refresh_token: abc1234 (string) - Used to get a new token w/o username and password
